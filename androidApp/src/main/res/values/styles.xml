@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base app theme -->
+    <style name="AppTheme" parent="android:Theme.Material.NoActionBar" />
+
+    <!-- Transparent splash theme for Compose approach -->
+    <style name="SplashTheme" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- Prevents the Android robot preview -->
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+    </style>
+</resources>
