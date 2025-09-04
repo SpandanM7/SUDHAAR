@@ -41,9 +41,10 @@ fun LoggedInScreen(navController: NavController) {
     val context = LocalContext.current
     val userName = remember { getUserName(context) }
 
+    // Whole screen background → deep black
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = Color.Black
     ) {
         Column(
             modifier = Modifier
@@ -62,33 +63,24 @@ fun LoggedInScreen(navController: NavController) {
                     Icon(
                         imageVector = Icons.Default.Notifications,
                         contentDescription = "Notifications",
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = Color(0xFF79DB70)
                     )
                 }
             }
 
-            // Blue welcome section
+            // Welcome section (flat dark card)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color(0xFF1976D2),
-                                Color(0xFF42A5F5)
-                            )
-                        )
-                    )
+                    .background(Color(0xFF005451)) // very dark wine
                     .padding(24.dp)
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "Welcome back,",
                         fontSize = 18.sp,
-                        color = Color.White.copy(alpha = 0.9f),
+                        color = Color.White.copy(alpha = 0.8f),
                         textAlign = TextAlign.Center
                     )
 
@@ -96,7 +88,7 @@ fun LoggedInScreen(navController: NavController) {
                         text = userName,
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = Color(0xFF00CEC8),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(top = 8.dp)
                     )
@@ -105,7 +97,7 @@ fun LoggedInScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            // Main action cards
+            // Main action cards (dark bg + wine accent)
             Column(
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -114,14 +106,22 @@ fun LoggedInScreen(navController: NavController) {
                     title = "Lodge a Complaint",
                     subtitle = "Report civic issues in your area",
                     icon = Icons.Default.Add,
-                    onClick = { navController.navigate("lodge_complaint") }
+                    onClick = { navController.navigate("lodge_complaint") },
+                    titleColor = Color.White,
+                    subtitleColor = Color.White.copy(alpha = 0.7f),
+                    iconTint = Color(0xFF00CEC8),
+                    backgroundColor = Color(0xFF111111) // flat dark card
                 )
 
                 ClassyActionCard(
                     title = "View Complaints",
                     subtitle = "Track your reported issues",
                     icon = Icons.Default.List,
-                    onClick = { navController.navigate("view_complaints") }
+                    onClick = { navController.navigate("view_complaints") },
+                    titleColor = Color.White,
+                    subtitleColor = Color.White.copy(alpha = 0.7f),
+                    iconTint = Color(0xFF00CEC8),
+                    backgroundColor = Color(0xFF111111)
                 )
             }
 
@@ -129,7 +129,6 @@ fun LoggedInScreen(navController: NavController) {
         }
     }
 }
-
 
 
 private fun getUserName(context: Context): String {

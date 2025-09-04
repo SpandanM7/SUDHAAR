@@ -1,16 +1,7 @@
 package com.sudhaar.app.android.components.cards
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,7 +23,11 @@ fun ClassyActionCard(
     title: String,
     subtitle: String,
     icon: ImageVector,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    titleColor: Color,
+    subtitleColor: Color,
+    iconTint: Color,
+    backgroundColor: Color
 ) {
     Card(
         modifier = Modifier
@@ -40,61 +35,53 @@ fun ClassyActionCard(
             .height(100.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFF5F5F5)
-        ),
-        border = BorderStroke(
-            width = 2.dp,
-            color = Color(0xFF1976D2)
+            containerColor = backgroundColor
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp,
-            pressedElevation = 8.dp
+            defaultElevation = 6.dp,
+            pressedElevation = 10.dp
         ),
         onClick = onClick
     ) {
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp)
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+            Column(
+                modifier = Modifier.weight(1f)
             ) {
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = title,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFF1A1A1A)
-                    )
-                    Text(
-                        text = subtitle,
-                        fontSize = 14.sp,
-                        color = Color(0xFF666666),
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                }
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = titleColor
+                )
+                Text(
+                    text = subtitle,
+                    fontSize = 14.sp,
+                    color = subtitleColor,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
 
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .background(
-                            Color(0xFF2196F3).copy(alpha = 0.1f),
-                            RoundedCornerShape(12.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = title,
-                        tint = Color(0xFF2196F3),
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(
+                        iconTint.copy(alpha = 0.15f),
+                        RoundedCornerShape(12.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    tint = iconTint,
+                    modifier = Modifier.size(24.dp)
+                )
             }
         }
     }

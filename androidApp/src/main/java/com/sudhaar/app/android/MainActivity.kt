@@ -32,6 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sudhaar.app.android.utils.PlaceholderScreen
 import com.sudhaar.app.android.components.cards.ClassyActionCard
+import com.sudhaar.app.android.screens.LoggedInScreen.LoggedInScreen
 import com.sudhaar.app.android.screens.WelcomeScreen.WelcomeScreen
 
 
@@ -104,102 +105,6 @@ fun MainScreen(navController: NavController) {
         }
     }
 }
-
-@Composable
-fun LoggedInScreen(navController: NavController) {
-    val context = LocalContext.current
-    val userName = remember { getUserName(context) }
-
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Top bar with notification button
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                IconButton(
-                    onClick = { navController.navigate("notifications") }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Notifications,
-                        contentDescription = "Notifications",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
-
-            // Blue welcome section
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color(0xFF1976D2),
-                                Color(0xFF42A5F5)
-                            )
-                        )
-                    )
-                    .padding(24.dp)
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Welcome back,",
-                        fontSize = 18.sp,
-                        color = Color.White.copy(alpha = 0.9f),
-                        textAlign = TextAlign.Center
-                    )
-
-                    Text(
-                        text = userName,
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            // Main action cards
-            Column(
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                ClassyActionCard(
-                    title = "Lodge a Complaint",
-                    subtitle = "Report civic issues in your area",
-                    icon = Icons.Default.Add,
-                    onClick = { navController.navigate("lodge_complaint") }
-                )
-
-                ClassyActionCard(
-                    title = "View Complaints",
-                    subtitle = "Track your reported issues",
-                    icon = Icons.Default.List,
-                    onClick = { navController.navigate("view_complaints") }
-                )
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-        }
-    }
-}
-
-
 
 
 // Utility functions for checking login status
