@@ -5,12 +5,14 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,6 +30,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sudhaar.app.android.utils.PlaceholderScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +79,9 @@ fun AppContent() {
         composable("view_complaints") {
             PlaceholderScreen("View Complaints")
         }
+        composable("notifications") {
+            PlaceholderScreen("No new notifications")
+        }
     }
 }
 
@@ -101,18 +107,9 @@ fun LoggedInScreen(navController: NavController) {
     val context = LocalContext.current
     val userName = remember { getUserName(context) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF1976D2),
-                        Color(0xFF42A5F5),
-                        Color(0xFFE3F2FD)
-                    )
-                )
-            )
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
@@ -120,24 +117,57 @@ fun LoggedInScreen(navController: NavController) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Welcome header
-            Spacer(modifier = Modifier.height(60.dp))
+            // Top bar with notification button
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(
+                    onClick = { navController.navigate("notifications") }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = "Notifications",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
 
-            Text(
-                text = "Welcome back,",
-                fontSize = 18.sp,
-                color = Color.White.copy(alpha = 0.9f),
-                textAlign = TextAlign.Center
-            )
+            // Blue welcome section
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color(0xFF1976D2),
+                                Color(0xFF42A5F5)
+                            )
+                        )
+                    )
+                    .padding(24.dp)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Welcome back,",
+                        fontSize = 18.sp,
+                        color = Color.White.copy(alpha = 0.9f),
+                        textAlign = TextAlign.Center
+                    )
 
-            Text(
-                text = userName,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 8.dp)
-            )
+                    Text(
+                        text = userName,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(40.dp))
 
@@ -150,9 +180,6 @@ fun LoggedInScreen(navController: NavController) {
                     title = "Lodge a Complaint",
                     subtitle = "Report civic issues in your area",
                     icon = Icons.Default.Add,
-//                    gradient = Brush.horizontalGradient(
-//                        colors = listOf(Color(0xFF4CAF50), Color(0xFF8BC34A))
-//                    ),
                     onClick = { navController.navigate("lodge_complaint") }
                 )
 
@@ -160,14 +187,11 @@ fun LoggedInScreen(navController: NavController) {
                     title = "View Complaints",
                     subtitle = "Track your reported issues",
                     icon = Icons.Default.List,
-//                    gradient = Brush.horizontalGradient(
-//                        colors = listOf(Color(0xFFFF9800), Color(0xFFFFC107))
-//                    ),
                     onClick = { navController.navigate("view_complaints") }
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
 
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
@@ -287,7 +311,11 @@ fun ClassyActionCard(
             .height(100.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = Color(0xFFF5F5F5)
+        ),
+        border = BorderStroke(
+            width = 2.dp,
+            color = Color(0xFF1976D2)
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp,
@@ -343,25 +371,7 @@ fun ClassyActionCard(
     }
 }
 
-@Composable
-fun PlaceholderScreen(screenName: String) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = screenName,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-}
+
 
 // Utility functions for checking login status
 private fun isUserLoggedIn(context: Context): Boolean {
