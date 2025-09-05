@@ -32,6 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sudhaar.app.android.utils.PlaceholderScreen
 import com.sudhaar.app.android.components.cards.ClassyActionCard
+import com.sudhaar.app.android.screens.ComplaintsScreen.ComplaintsScreen
 import com.sudhaar.app.android.screens.LoggedInScreen.LoggedInScreen
 import com.sudhaar.app.android.screens.WelcomeScreen.WelcomeScreen
 
@@ -81,8 +82,9 @@ fun AppContent() {
             PlaceholderScreen("Lodge a Complaint")
         }
         composable("view_complaints") {
-            PlaceholderScreen("View Complaints")
+            ComplaintsScreen(navController)
         }
+
         composable("notifications") {
             PlaceholderScreen("No new notifications")
         }
@@ -114,7 +116,7 @@ private fun isUserLoggedIn(context: Context): Boolean {
     val isLoggedInForTesting = true
 
     if (isLoggedInForTesting) {
-        return false
+        return true
     }
 
     // Actual implementation (currently not used due to hardcoding above)
