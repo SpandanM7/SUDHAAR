@@ -9,13 +9,7 @@
         </shape>
     </item>
 
-    <!-- Logo with controlled size -->
-    <item
-        android:width="120dp"
-        android:height="120dp"
-        android:gravity="center">
-        <bitmap
-            android:gravity="fill_horizontal|fill_vertical"
-            android:src="@mipmap/logo" />
-    </item>
+    <!-- Logo removed since it's now handled by Compose animation -->
+    <!-- The logo will be animated in the SplashActivity Compose UI -->
+
 </layer-list>
