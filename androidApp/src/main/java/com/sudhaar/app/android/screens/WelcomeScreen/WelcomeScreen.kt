@@ -15,9 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.*
+import androidx.navigation.NavController
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     FlowingGradientBackground {
         // Content over the flowing background
         Box(
@@ -60,7 +61,7 @@ fun WelcomeScreen() {
             ) {
                 Spacer(modifier = Modifier.height(80.dp))
                 OutlinedButton(
-                    onClick = { /* TODO: Login click */ },
+                    onClick = { navController.navigate("login") },
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = Color.White
                     ),

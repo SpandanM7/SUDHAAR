@@ -23,12 +23,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.sudhaar.app.android.utils.PlaceholderScreen
+import com.sudhaar.app.android.utils.AuthManager
 import com.sudhaar.app.android.components.cards.ClassyActionCard
 import com.sudhaar.app.android.screens.ComplaintsScreen.ComplaintsScreen
 import com.sudhaar.app.android.screens.LoggedInScreen.LoggedInScreen
 import com.sudhaar.app.android.screens.WelcomeScreen.WelcomeScreen
+import com.sudhaar.app.android.screens.LoginScreen.LoginScreen
 import android.util.Log
 import com.sudhaar.app.android.screens.ComplaintDetailsScreen.ComplaintDetailsScreen
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +100,10 @@ fun AppContent() {
             MainScreen(navController)
         }
 
+        composable("login") {
+            LoginScreen(navController)
+        }
+
         composable(
             route = "complaint_details"
         ) { backStackEntry ->
@@ -135,43 +142,17 @@ fun AppContent() {
 @Composable
 fun MainScreen(navController: NavController) {
     val context = LocalContext.current
-    val isLoggedIn = remember { isUserLoggedIn(context) }
+    val authManager = remember { AuthManager(context) }
+    val isLoggedIn = remember { authManager.isUserLoggedIn() }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         if (isLoggedIn) {
-            LoggedInScreen(navController)
+            LoggedInScreen(navController, authManager)
         } else {
-            WelcomeScreen()
+            WelcomeScreen(navController)
         }
     }
-}
-
-
-// Utility functions for checking login status
-private fun isUserLoggedIn(context: Context): Boolean {
-    // TODO: Remove hardcoding when login is implemented
-    // For testing: Change this to false to test logged out state
-    val isLoggedInForTesting = true
-
-    if (isLoggedInForTesting) {
-        return true
-    }
-
-    // Actual implementation (currently not used due to hardcoding above)
-    val sharedPreferences: SharedPreferences = context.getSharedPreferences("sudhaar_prefs", Context.MODE_PRIVATE)
-    val jwtToken = sharedPreferences.getString("jwt_token", null)
-    return !jwtToken.isNullOrEmpty()
-}
-
-private fun getUserName(context: Context): String {
-    // TODO: Remove hardcoding when login is implemented
-    // Hardcoded for testing
-    return "Spandan"
-
-    // Actual implementation (currently not used due to hardcoding above)
-    // val sharedPreferences: SharedPreferences = context.getSharedPreferences("sudhaar_prefs", Context.MODE_PRIVATE)
-    // return sharedPreferences.getString("user_name", "User") ?: "User"
 }
