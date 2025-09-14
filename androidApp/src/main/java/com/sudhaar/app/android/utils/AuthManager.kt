@@ -7,42 +7,50 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.net.HttpURLConnection
 import java.net.URL
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 @Serializable
 data class LoginRequest(
     val mobile: String,
     val password: String
 )
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 @Serializable
 data class LoginResponse(
     val accessToken: String,
     val refreshToken: String
 )
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 @Serializable
 data class RefreshRequest(
     val refreshToken: String
 )
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 @Serializable
 data class RefreshResponse(
     val accessToken: String
 )
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 @Serializable
 data class NameResponse(
     val name: String
 )
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 @Serializable
 data class ErrorResponse(
     val error: String
 )
 
+@OptIn(kotlinx.serialization.InternalSerializationApi::class)
 data class AuthResult(
     val isSuccess: Boolean,
     val errorMessage: String? = null
@@ -304,15 +312,65 @@ class AuthManager(private val context: Context) {
         }
     }
 
-    // Logout - clear all stored data
-    fun logout() {
+    // Logout - call API and clear all stored data
+    suspend fun logout(): AuthResult {
+        return withContext(Dispatchers.IO) {
+            try {
+                val refreshToken = sharedPreferences.getString(REFRESH_TOKEN_KEY, null)
+
+                if (!refreshToken.isNullOrEmpty()) {
+                    // Call logout API
+                    val url = URL("$BASE_URL/logout")
+                    val connection = url.openConnection() as HttpURLConnection
+
+                    connection.requestMethod = "POST"
+                    connection.setRequestProperty("Content-Type", "application/json")
+                    connection.doOutput = true
+
+                    val logoutRequest = RefreshRequest(refreshToken)
+                    val requestBody = json.encodeToString(logoutRequest)
+
+                    connection.outputStream.use { outputStream ->
+                        outputStream.write(requestBody.toByteArray())
+                    }
+
+                    val responseCode = connection.responseCode
+                    val responseBody = if (responseCode == HttpURLConnection.HTTP_OK) {
+                        connection.inputStream.bufferedReader().use { it.readText() }
+                    } else {
+                        connection.errorStream?.bufferedReader()?.use { it.readText() } ?: ""
+                    }
+
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        Log.d(TAG, "Logout API call successful")
+                    } else {
+                        Log.w(TAG, "Logout API failed: $responseBody")
+                        // Continue with local logout even if API fails
+                    }
+                }
+
+                // Always clear local data regardless of API response
+                clearLocalData()
+                AuthResult(isSuccess = true)
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Logout error", e)
+                // Clear local data even if API call fails
+                clearLocalData()
+                AuthResult(isSuccess = true) // Always return success for logout
+            }
+        }
+    }
+
+    // Clear local stored data
+    private fun clearLocalData() {
         with(sharedPreferences.edit()) {
             remove(ACCESS_TOKEN_KEY)
             remove(REFRESH_TOKEN_KEY)
             remove(USER_NAME_KEY)
             apply()
         }
-        Log.d(TAG, "User logged out")
+        Log.d(TAG, "Local user data cleared")
     }
 }
 

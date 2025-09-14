@@ -63,9 +63,9 @@ class ApiService(private val context: Context) {
     /**
      * Logout user
      */
-    fun logout() {
-        authManager.logout()
-    }
+//    fun logout() {
+//        return authManager.logout()
+//    }
 
     /**
      * Example usage for other screens:
