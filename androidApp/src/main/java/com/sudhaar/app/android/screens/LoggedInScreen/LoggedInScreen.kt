@@ -106,7 +106,7 @@ fun LoggedInScreen(navController: NavController) {
                     title = "Lodge a Complaint",
                     subtitle = "Report civic issues in your area",
                     icon = Icons.Default.Add,
-                    onClick = { navController.navigate("lodge_complaint") },
+                    onClick = {navController.navigate("complaint_details")},//{ navController.navigate("lodge_complaint") },
                     titleColor = Color.White,
                     subtitleColor = Color.White.copy(alpha = 0.7f),
                     iconTint = Color(0xFF00CEC8),

@@ -1,5 +1,6 @@
 package com.sudhaar.app.android.screens.WelcomeScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -106,6 +107,8 @@ fun WelcomeScreen() {
         }
     }
 }
+
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun FlowingGradientBackground(content: @Composable () -> Unit) {
     BoxWithConstraints(
