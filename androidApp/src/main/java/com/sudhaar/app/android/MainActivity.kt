@@ -510,7 +510,7 @@ private fun isUserLoggedIn(context: Context): Boolean {
     val isLoggedInForTesting = true
 
     if (isLoggedInForTesting) {
-        return false
+        return true
     }
 
     // Actual implementation (currently not used due to hardcoding above)
