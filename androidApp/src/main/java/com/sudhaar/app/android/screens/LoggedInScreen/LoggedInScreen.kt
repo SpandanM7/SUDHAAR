@@ -104,6 +104,7 @@ fun LoggedInScreen(navController: NavController, authManager: AuthManager) {
             }
 
             // Welcome section (flat dark card)
+            // Welcome section (flat dark card)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -111,12 +112,15 @@ fun LoggedInScreen(navController: NavController, authManager: AuthManager) {
                     .background(Color(0xFF005451)) // very dark wine
                     .padding(24.dp)
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(), // This is crucial for alignment
+                    horizontalAlignment = Alignment.Start // Left-aligns the content of the Column
+                ) {
                     Text(
                         text = "Welcome back,",
                         fontSize = 18.sp,
                         color = Color.White.copy(alpha = 0.8f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start // Ensures the text itself is left-aligned
                     )
 
                     if (isLoadingName) {
@@ -135,7 +139,7 @@ fun LoggedInScreen(navController: NavController, authManager: AuthManager) {
                             fontSize = 32.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF00CEC8),
-                            textAlign = TextAlign.Center,
+                            textAlign = TextAlign.Start, // Ensures the text itself is left-aligned
                             modifier = Modifier.padding(top = 8.dp)
                         )
                     }
