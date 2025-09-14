@@ -67,6 +67,7 @@ class AuthManager(private val context: Context) {
         const val REFRESH_TOKEN_KEY = "refresh_token"
         const val USER_NAME_KEY = "user_name"
         const val BASE_URL = "https://sudhaar-backend-mob.onrender.com"
+        //const val BASE_URL = "http://192.168.1.5:3000"
         const val TAG = "AuthManager"
     }
 

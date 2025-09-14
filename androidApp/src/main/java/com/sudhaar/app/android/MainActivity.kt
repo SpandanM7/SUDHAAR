@@ -114,19 +114,22 @@ fun AppContent() {
                     navController.popBackStack()
                 },
                 onSubmit = { imageUri, description, selectedCategory ->
-                    // Handle submission logic here
-                    // You now have access to:
-                    // - imageUri: Uri? - The selected image
-                    // - description: String - The complaint description
-                    // - selectedCategory: String - The selected complaint category
+                    // This will be called when submission is successful
+                    // The actual API call and image upload is now handled inside the screen
 
-                    // Example: Log the data or send to your backend
+                    Log.d("ComplaintSubmission", "✅ Complaint submitted successfully!")
                     Log.d("ComplaintSubmission", "Category: $selectedCategory")
                     Log.d("ComplaintSubmission", "Description: $description")
                     Log.d("ComplaintSubmission", "Image URI: $imageUri")
 
-                    // For now, just show success or navigate back
+                    // Show success message or navigate to success screen
+                    // You could navigate to a success screen or show a snackbar here
+
+                    // Navigate back to main screen or show success
                     navController.popBackStack("lodge_complaint", inclusive = true)
+
+                    // Or navigate to a success screen:
+                    // navController.navigate("complaint_success")
                 }
             )
         }
