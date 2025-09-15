@@ -126,7 +126,7 @@ fun AppContent() {
                     // You could navigate to a success screen or show a snackbar here
 
                     // Navigate back to main screen or show success
-                    navController.popBackStack("lodge_complaint", inclusive = true)
+                    navController.popBackStack("main", inclusive = false)
 
                     // Or navigate to a success screen:
                     // navController.navigate("complaint_success")
