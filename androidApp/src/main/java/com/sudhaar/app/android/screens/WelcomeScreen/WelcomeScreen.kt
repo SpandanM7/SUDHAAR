@@ -41,15 +41,8 @@ fun WelcomeScreen(navController: NavController) {
                     textAlign = TextAlign.Center,
                     letterSpacing = 2.sp
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = "Empowering citizens to create positive change",
-                    fontSize = 16.sp,
-                    color = Color.White.copy(alpha = 0.8f),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 32.dp)
-                )
             }
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Login/signup buttons in the vertical center
             Column(

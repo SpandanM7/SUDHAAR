@@ -53,7 +53,16 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Welcome Back",
+                text = "Welcome",
+                fontSize = 48.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                letterSpacing = 2.sp
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(
+                text = "Back",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.White,

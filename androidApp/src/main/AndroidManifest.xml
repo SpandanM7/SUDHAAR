@@ -9,6 +9,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Sudhaar"
         tools:ignore="UnusedAttribute">
 
         <!-- Splash Screen is the launcher -->
